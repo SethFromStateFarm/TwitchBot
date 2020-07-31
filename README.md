@@ -4,6 +4,22 @@ __Current features:__
 
 == Events ==
 
+- Timeout Notification
+
+- Slowmode Notification
+
+- Gifted Sub Notification
+
+- Raid Notification
+
+- Resub Notification
+
+- Subscription Notification
+
+- Deleted Message Notification
+
+- Mod & Unmod Notification
+
 - Clear Chat Notifications
 
 - Gift Sub Upgrade Notifications
@@ -12,7 +28,7 @@ __Current features:__
 
 - Discord Logging
 
-- Emote & Follower only mode notifications
+- Emote, Follower, & Sub only mode notifications
 
 - Point system & custom, redeemable actions
 
