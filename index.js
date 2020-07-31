@@ -51,6 +51,7 @@ bot.on('ready', () => {
    bot.getRESTChannel(discord).then(a => {
      if(!a) {
       console.log("Disconnected from Discord. (Invalid log channel.)")
+      bot.disconnect();
      }
    })
   } else {
@@ -488,42 +489,40 @@ const max = 75 // Maximum points
 
 const min = 10 // Minimum points
 
-client.on('join', (channel, username, self) => {
-  if(user.badges === "subscriber") {
-   setInterval((gainPoints) => {
-       let pts = Math.random() * (max - min) - min * 2
-         dbo.collection(collection).findOne({viewer: username}).then(b => {
-           if(!a) {
-             dbo.collection(collection).insertOne({viewer: username, points: pts})
-           } else {
-             dbo.collection(collection).findOneAndUpdate({viewer: username}, {$inc: {points: pts}});   
-           }
-         }).catch(error => {
-            console.log(`ERR:\n${error}`);  
-         })
-   }, 420000)
-  } else {
-  setInterval((gainPoints) => {
-    let pts = Math.random() * (max - min) - min
-     dbo.collection(collection).findOne({viewer: username}).then(a => {
-       if(!a) {
-          dbo.collection(collection).insertOne({viewer: username, points: pts})
-       } else {
-          dbo.collection(collection).findOneAndUpdate({viewer: username}, {$inc: {"points": pts}})   
-       }
-     }).catch(error => {
-        console.log("ERR: Unable to access point database\n" + error);  
-     })
-  }, 600000)
-    client.on('part', (c, u, s) => {
-      if(u === username) {
-        clearInterval(gainPoints);   
-      } else {
-        return;   
-      }
-    })
+const lister = new Set();
+
+client.on('join', (channel, user, self) => {
+  if(self) return;
+    console.log(user + "joined.");
+    lister.add(user)
+     let inter = setInterval(() => {
+         if(lister.has(user)) {
+           let pts = Math.random() * (max - min) - min
+            dbo.collection(collection).findOne({viewer: user}).then(a => {
+              if(!a) {
+                dbo.collection(collection).insertOne({viewer: user, points: pts});   
+              } else {
+               dbo.collection(collection).findOneAndUpdate({viewer: user}, {$inc: {"points": pts}});   
+              }
+            })
+         } else {
+           console.log(user + " not found in lister.")
+           clearInterval(inter)
+           return;
+         }
+     }, 600000)
+})
+
+client.on('part', (channel, user, self) => {
+  console.log(u + " left.")
+    if(self) return;
+    if(lister.has(u)) {
+      lister.delete(u)
+    } else {
+    return;   
   }
 })
+
 
 client.on('message', (channel, user, msg, self) => {
    let args = msg.split(" ");
