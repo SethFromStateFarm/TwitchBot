@@ -90,6 +90,47 @@ function com(channel, seconds) {
 
 // Events //
 
+client.on('timeout', (channel, username, reason, duration, userstate) => {
+   client.say(channel, `${username} has been timed out. (${duration} seconds)`);  
+    bot.createMessage(discord, {
+        embed: {
+                title: "User Timeout",
+                fields: [
+                    {
+                      name: "User",
+                      value: `${username}`,
+                    },
+                    {
+                      name: "Reason",
+                      value: `${reason || "No reason."}`,
+                    },
+                    {
+                      name: "Duration",
+                      value: `${duration}`,
+                    },
+                ],
+                footer: {
+                    text: "ID: " + userstate.user-id
+                }
+            }
+    })
+})
+    
+client.on('clearchat', (channel) => {
+  setTimeout(() => {
+    return;
+  }, 1000)
+  client.say(channel, "Chat has been cleared!");
+    bot.createMessage(discord, {
+       embed: {
+         title: "Chat has been cleared.",
+         timestamp: new Date();
+       }
+    })
+})
+    
+
+
 client.on('cheer', (channel, userstate, message) => {
      if(message == 0) {
        client.say(channel, `${userstate.display-name} has cheered ${userstate.bits} bits!!`)
@@ -119,18 +160,63 @@ client.on('cheer', (channel, userstate, message) => {
             }
         });
 })
-
-client.on('clearchat', () => {
-    bot.createMessage(discord, {
-            embed: {
-                title: "Chat Cleared",
-                timestamp: new Date();
-                fields: [
-                ],
-                footer: {
-                }
-            }
-        });
+    
+client.on('slow', (channel, enabled, length) => {
+   if(enabled == true) {
+     client.say(channel, "Chat is now in slow mode!")
+     bot.createMessage(discord => {
+       embed: {
+          title: "Slowmode Enabled",
+          timestamp: new Date(),
+          fields: [
+          ],
+          footer: {
+              text: "Length: " + (length || "N/A")
+          }
+       }
+    })   
+   } else {
+     client.say(channel, "Chat is no longer in slow mode!")
+     bot.createMessage(discord => {
+       embed: {
+          title: "Slowmode Disabled",
+          timestamp: new Date(),
+          fields: [
+          ],
+          footer: {   
+          }
+       }
+    })
+   }
+})
+    
+client.on('subgift', (channel, username, streakMonths, recipient, methods, userstate) => {
+     bot.createMessage(discord => {
+       embed: {
+          title: "Gifted Sub Notification!",
+          timestamp: new Date(),
+          fields: [
+              {
+                  name: "User:",
+                  value: `${username}`
+              },
+              {
+                  name: "Streak",
+                  value: streakMonths + " months"
+              },
+              {
+                  name: "Recipient",
+                  value: recipient
+              },
+              {
+                  name: "Method",
+                  value: methods
+              }
+          ],
+          footer: {   
+          }
+       }
+    })
 })
 
 client.on('emoteonly', (channel, enabled) => {
@@ -139,7 +225,7 @@ client.on('emoteonly', (channel, enabled) => {
         bot.createMessage(discord, {
             embed: {
                 title: "Emote Only Mode: Disabled",
-                timestamp: new Date();
+                timestamp: new Date(),
                 fields: [
                 ],
                 footer: {
@@ -151,7 +237,7 @@ client.on('emoteonly', (channel, enabled) => {
         bot.createMessage(discord, {
             embed: {
                 title: "Emote Only Mode: Enabled",
-                timestamp: new Date();
+                timestamp: new Date(),
                 fields: [
                 ],
                 footer: {
@@ -167,7 +253,7 @@ client.on('followersonly', (channel, enabled) => {
       bot.createMessage(discord, {
             embed: {
                 title: "Follower Only Mode: Disabled",
-                timestamp: new Date();
+                timestamp: new Date(),
                 fields: [
                 ],
                 footer: {
@@ -179,7 +265,7 @@ client.on('followersonly', (channel, enabled) => {
       bot.createMessage(discord, {
             embed: {
                 title: "Follower Only Mode: Enabled",
-                timestamp: new Date();
+                timestamp: new Date(),
                 fields: [
                 ],
                 footer: {
@@ -188,13 +274,123 @@ client.on('followersonly', (channel, enabled) => {
         });
     }
 })
+    
+client.on('subscribers', (channel, enabled) => {
+    if(enabled == true) {
+        client.say(channel, "Chat is now in Subscriber Only mode!")
+     bot.createMessage(discord => {
+       embed: {
+          title: "Sub Only Mode: Enabled",
+          timestamp: new Date(),
+          fields: [
+          ],
+          footer: {   
+          }
+       }
+    })
+    } else {
+        client.say(channel, "Chat is no longer in Subscriber Only mode!")
+     bot.createMessage(discord => {
+       embed: {
+          title: "Sub Only Mode: Disabled",
+          timestamp: new Date(),
+          fields: [
+          ],
+          footer: {   
+          }
+       }
+    })
+    }
+})
+    
+client.on('raided', (channel, username, viewers) => {
+  client.say(channel, `${username} has raided with ${viewers} viewers!`)  
+    bot.createMessage(discord => {
+       embed: {
+          title: "Raid Notification",
+          timestamp: new Date(),
+          fields: [
+              {
+                  name: "Leader",
+                  value: username
+              },
+              {
+                  name: "Viewers",
+                  value: viewers
+              }
+          ],
+          footer: {   
+          }
+       }
+    })
+})
+    
+client.on('resub', (channel, username, months, message, userstate, method) => {
+    client.say(channel, `${username} has resubbed for ${months} month(s)!`)
+    bot.createMessage(discord => {
+       embed: {
+          title: "Resub Notification",
+          timestamp: new Date(),
+          fields: [
+              {
+                  name: "User",
+                  value: username
+              },
+              {
+                  name: "Months",
+                  value: months
+              },
+              {
+                  name: "Cumulative Months",
+                  value: ~~userstate["msg-param-cumulative-months"]
+              },
+              {
+                  name: "Method",
+                  value: method
+              },
+              {
+                  name: "Message",
+                  value: message
+              }
+          ],
+          footer: {   
+          }
+       }
+    })
+})
+    
+client.on('subscription', (channel, username, method, message, userstate) => {
+    client.say(channel, `${username} has just subscribed!`)
+    bot.createMessage(discord => {
+       embed: {
+          title: "Subscription Notification",
+          timestamp: new Date(),
+          fields: [
+              {
+                  name: "User",
+                  value: username
+              },
+              {
+                  name: "Message",
+                  value: message
+              },
+              {
+                  name: "Method",
+                  value: method
+              },
+          ],
+          footer: {   
+          }
+       }
+    })
+})
 
 client.on('giftpaidupgrade', (channel, username, sender, userstate) => {
      client.say(channel, `${username} has upgraded their gifted sub from ${sender} to a regular sub!`)
      bot.createMessage(discord, {
             embed: {
                 title: "Gifted Sub Upgrade",
-                timestamp: new Date();
+                timestamp: new Date(),
                 fields: [
                     {
                         name: "User:",
@@ -211,8 +407,61 @@ client.on('giftpaidupgrade', (channel, username, sender, userstate) => {
         });
 })
 
+client.on('messagedeleted', (channel, username, deletedMessage, userstate) => {
+    bot.createMessage(discord => {
+       embed: {
+          title: "Message Deleted",
+          timestamp: new Date(),
+          fields: [
+              {
+                  name: "User",
+                  value: `${username}`
+              },
+              {
+                  name: "Message",
+                  value: deletedMessage
+              },
+          ],
+          footer: {
+            text: `ID: ${userstate.user-id}`   
+          }
+       }
+    })
+})
 
-
+client.on('mod', (channel, username) => {
+   bot.createMessage(discord => {
+       embed: {
+          title: "User Modded",
+          timestamp: new Date(),
+          fields: [
+              {
+                  name: "User",
+                  value: `${username}`
+              },
+          ],
+          footer: {
+          }
+       }
+    })
+})
+    
+client.on('unmod', (channel, username) => {
+  bot.createMessage(discord => {
+       embed: {
+          title: "User Unmodded",
+          timestamp: new Date(),
+          fields: [
+              {
+                  name: "User",
+                  value: `${username}`
+              },
+          ],
+          footer: {
+          }
+       }
+    })  
+})
 // Commands //
 
 client.on('message', (channel, user, msg, self) {
