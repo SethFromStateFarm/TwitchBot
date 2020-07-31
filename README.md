@@ -4,9 +4,13 @@ __Current features:__
 
 == Events ==
 
-- Cheer notifications
+- Clear Chat Notifications
 
-- Discord logging
+- Gift Sub Upgrade Notifications
+
+- Cheer Notifications
+
+- Discord Logging
 
 - Emote & Follower only mode notifications
 
