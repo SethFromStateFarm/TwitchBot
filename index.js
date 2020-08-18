@@ -73,10 +73,10 @@ dat.connect(function(err, db) {
 // Functions //
 
 function com(channel, seconds) {
-    if(seconds !== 30 || 60 || 90 || 120 || 150 || 180) return client.say(channel, "Available times: 30, 60, 120, 150, & 180.");
+    if(seconds !== 30 || 60 || 90 || 120 || 150 || 180) return client.action(channel, "Available times: 30, 60, 120, 150, & 180.");
     try {
       client.commercial(channel, seconds);   
-      client.say(channel, "Running commercial!");
+      client.action(channel, "Running commercial!");
         if(discord > 0) {
           bot.createMessage(discord, "**Commercial Running** - " + seconds + " second duration.")
         } else {
@@ -91,7 +91,7 @@ function com(channel, seconds) {
 // Events //
 
 client.on('timeout', (channel, username, reason, duration, userstate) => {
-   client.say(channel, `${username} has been timed out. (${duration} seconds)`);  
+   client.(channel, `${username} has been timed out. (${duration} seconds)`);  
     bot.createMessage(discord, {
         embed: {
                 title: "User Timeout",
@@ -120,7 +120,7 @@ client.on('clearchat', (channel) => {
   setTimeout(() => {
     return;
   }, 1000)
-  client.say(channel, "Chat has been cleared!");
+  client.action(channel, "Chat has been cleared!");
     bot.createMessage(discord, {
        embed: {
          title: "Chat has been cleared.",
@@ -133,9 +133,9 @@ client.on('clearchat', (channel) => {
 
 client.on('cheer', (channel, userstate, message) => {
      if(message == 0) {
-       client.say(channel, `${userstate.display-name} has cheered ${userstate.bits} bits!!`)
+       client.action(channel, `${userstate.display-name} has cheered ${userstate.bits} bits!!`)
      } else {
-       client.say(channel, `${userstate.display-name} has cheered ${userstate.bits} bits!!\n"${message}"`)   
+       client.action(channel, `${userstate.display-name} has cheered ${userstate.bits} bits!!\n"${message}"`)   
      }
         bot.createMessage(discord, {
             embed: {
@@ -163,7 +163,7 @@ client.on('cheer', (channel, userstate, message) => {
     
 client.on('slow', (channel, enabled, length) => {
    if(enabled == true) {
-     client.say(channel, "Chat is now in slow mode!")
+     client.action(channel, "Chat is now in slow mode!")
      bot.createMessage(discord => {
        embed: {
           title: "Slowmode Enabled",
@@ -176,7 +176,7 @@ client.on('slow', (channel, enabled, length) => {
        }
     })   
    } else {
-     client.say(channel, "Chat is no longer in slow mode!")
+     client.action(channel, "Chat is no longer in slow mode!")
      bot.createMessage(discord => {
        embed: {
           title: "Slowmode Disabled",
@@ -221,7 +221,7 @@ client.on('subgift', (channel, username, streakMonths, recipient, methods, users
 
 client.on('emoteonly', (channel, enabled) => {
     if(enabled == false) {
-      client.say(channel, "Chat is no longer in Emote Only mode!");  
+      client.action(channel, "Chat is no longer in Emote Only mode!");  
         bot.createMessage(discord, {
             embed: {
                 title: "Emote Only Mode: Disabled",
@@ -233,7 +233,7 @@ client.on('emoteonly', (channel, enabled) => {
             }
         });
     } else {
-      client.say(channel, "Chat is now in Emote Only mode!");  
+      client.action(channel, "Chat is now in Emote Only mode!");  
         bot.createMessage(discord, {
             embed: {
                 title: "Emote Only Mode: Enabled",
@@ -249,7 +249,7 @@ client.on('emoteonly', (channel, enabled) => {
 
 client.on('followersonly', (channel, enabled) => {
     if(enabled == false) {
-      client.say(channel, "Chat is no longer in Follower Only mode!");
+      client.action(channel, "Chat is no longer in Follower Only mode!");
       bot.createMessage(discord, {
             embed: {
                 title: "Follower Only Mode: Disabled",
@@ -261,7 +261,7 @@ client.on('followersonly', (channel, enabled) => {
             }
         });   
     } else {
-      client.say(channel, "Chat is now in Follower Only mode!");
+      client.action(channel, "Chat is now in Follower Only mode!");
       bot.createMessage(discord, {
             embed: {
                 title: "Follower Only Mode: Enabled",
@@ -277,7 +277,7 @@ client.on('followersonly', (channel, enabled) => {
     
 client.on('subscribers', (channel, enabled) => {
     if(enabled == true) {
-        client.say(channel, "Chat is now in Subscriber Only mode!")
+        client.action(channel, "Chat is now in Subscriber Only mode!")
      bot.createMessage(discord => {
        embed: {
           title: "Sub Only Mode: Enabled",
@@ -289,7 +289,7 @@ client.on('subscribers', (channel, enabled) => {
        }
     })
     } else {
-        client.say(channel, "Chat is no longer in Subscriber Only mode!")
+        client.action(channel, "Chat is no longer in Subscriber Only mode!")
      bot.createMessage(discord => {
        embed: {
           title: "Sub Only Mode: Disabled",
@@ -304,7 +304,7 @@ client.on('subscribers', (channel, enabled) => {
 })
     
 client.on('raided', (channel, username, viewers) => {
-  client.say(channel, `${username} has raided with ${viewers} viewers!`)  
+  client.action(channel, `${username} has raided with ${viewers} viewers!`)  
     bot.createMessage(discord => {
        embed: {
           title: "Raid Notification",
@@ -326,7 +326,7 @@ client.on('raided', (channel, username, viewers) => {
 })
     
 client.on('resub', (channel, username, months, message, userstate, method) => {
-    client.say(channel, `${username} has resubbed for ${months} month(s)!`)
+    client.action(channel, `${username} has resubbed for ${months} month(s)!`)
     bot.createMessage(discord => {
        embed: {
           title: "Resub Notification",
@@ -360,7 +360,7 @@ client.on('resub', (channel, username, months, message, userstate, method) => {
 })
     
 client.on('subscription', (channel, username, method, message, userstate) => {
-    client.say(channel, `${username} has just subscribed!`)
+    client.action(channel, `${username} has just subscribed!`)
     bot.createMessage(discord => {
        embed: {
           title: "Subscription Notification",
@@ -386,7 +386,7 @@ client.on('subscription', (channel, username, method, message, userstate) => {
 })
 
 client.on('giftpaidupgrade', (channel, username, sender, userstate) => {
-     client.say(channel, `${username} has upgraded their gifted sub from ${sender} to a regular sub!`)
+     client.action(channel, `${username} has upgraded their gifted sub from ${sender} to a regular sub!`)
      bot.createMessage(discord, {
             embed: {
                 title: "Gifted Sub Upgrade",
@@ -463,11 +463,22 @@ client.on('unmod', (channel, username) => {
     })  
 })
 // Commands //
+    
 
+
+client.on('message', (channel, user, msg, self) => {
+   if(msg === "!mods") {
+     client.on("mods", (channel, mods) => {
+      const moderators = mods.join("\n") // "mods" returns an array of moderators. hopefully this will create a legitimate "list" of moderators.
+       client.action(channel, `Current mods of ${channel}'s stream:\n${moderators}`);
+     })
+   }
+})
+    
 client.on('message', (channel, user, msg, self) {
       if(msg === "!hello") {
         if(me) return;
-      client.say(channel, "Hello!");
+      client.action(channel, "Hello!");
    }
 })
 
@@ -562,15 +573,15 @@ client.on('message', (channel, user, msg, self) => {
       let msg = args.join(" ");
         if(msg == 0) {
             dbo.collection(collection).findOne({viewer: user.username}).then(res => {
-                client.say(channel, `Your balance is: ${res[0].points || 0} points!`);
+                client.action(channel, `Your balance is: ${res[0].points || 0} points!`);
             }).catch(error => {
-              client.say(channel, "There was an error accessing the database.")
+              client.action(channel, "There was an error accessing the database.")
                 console.log(`ERR:\n${error}`);
             })
         } else {
             dbo.collection(collection).findOne({viewer: args[0]}).then(res => {
-               if(!res[0]) return client.say(channel, "Doesn't look like this \"user\" has a database entry.")  
-                client.say(channel, `${args[0]}'s balance is: ${res[0].points} points!`);
+               if(!res[0]) return client.action(channel, "Doesn't look like this \"user\" has a database entry.")  
+                client.action(channel, `${args[0]}'s balance is: ${res[0].points} points!`);
             }).catch(error => {
               console.log(error);  
             })
@@ -583,27 +594,27 @@ client.on('message', (channel, user, msg, self) => {
    let cmd = args.shift(" ");
     if(cmd === "!redeem") {
       let full = args.join(" ");
-       if(full == 0) return client.say(channel, user.username + ", you're gonna want to provide a valid action!")
+       if(full == 0) return client.action(channel, user.username + ", you're gonna want to provide a valid action!")
       let actionType = args[0]
-       if(isNaN(actionType)) return client.say(channel, user.username + ", the action you're wanting to redeem needs to be the ID of the action!")
+       if(isNaN(actionType)) return client.action(channel, user.username + ", the action you're wanting to redeem needs to be the ID of the action!")
         actions.filter(actionType).then(res => {
            if(!res[0]) {
-             client.say(channel, "The action ID you've provided doesn't seem to be listed!")   
+             client.action(channel, "The action ID you've provided doesn't seem to be listed!")   
            } else {
              dbo.collection(collection).findOne({viewer: user.username}).then(result => {
                 if(!result[0]) {
-                  client.say("Oops... It seems you don't have any points to spend! (or you just haven't gotten a database entry yet)");   
+                  client.action("Oops... It seems you don't have any points to spend! (or you just haven't gotten a database entry yet)");   
                 } else {
                   if(result[0].points >= res[0].cost) {
                     let pts = result[0].points - res[0].cost
                      dbo.collection(collection).findOneAndUpdate({viewer: user}, { $set: {points: pts} })
-                      client.say(channel, `${user.username} has used ${res[0].cost} points for the action: ${res[0].action}!`)
+                      client.action(channel, `${user.username} has used ${res[0].cost} points for the action: ${res[0].action}!`)
                   } else {
-                      client.say(channel, `${user.username}, you don't have enough points to redeem this action!`)
+                      client.action(channel, `${user.username}, you don't have enough points to redeem this action!`)
                   }
                 }
              }).catch(error => {
-               client.say(channel, "Error accessing database...")
+               client.action(channel, "Error accessing database...")
                  console.log(`ERR:\n${error}`)
              })
            }
