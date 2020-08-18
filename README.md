@@ -40,4 +40,8 @@ __Note:__ The [!] prefix requires no permissions whilst [?] requires special per
 
 - ?com
 
+- ?ban [username] [reason?]
+
+- ?timeout [username] [duration?] [reason?]
+
 - !redeem [ActionID]
