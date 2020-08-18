@@ -44,4 +44,6 @@ __Note:__ The [!] prefix requires no permissions whilst [?] requires special per
 
 - ?timeout [username] [duration?] [reason?]
 
+- ?color [#HEX/ColorName?]
+
 - !redeem [ActionID]
