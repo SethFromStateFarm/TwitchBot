@@ -1,6 +1,6 @@
 const tmi = require('tmi.js');
 const Eris = require('eris');
-const bot = new Eris('', {restMode: true})
+const bot = new Eris('', {restMode: true, compress: true, requestTimeout: 25000})
 const discord = ""; 
 
 const actions = [ // Meant for point redeeming
