@@ -67,7 +67,6 @@ dat.connect(function(err, db) {
     const dbo = db.db("<collection_name>");
     if(err) throw err
     console.log("Connected to Database");
-    check = check + 1;
     
     const collection = "<database_name>";
 
@@ -479,6 +478,38 @@ client.on('message', (channel, user, msg, self) => {
       if(user.mod) {
         if(args[0] == 0) return;
          com(channel, args[0])
+      }
+   }
+})
+
+client.on('message', (channel, user, msg, self) => {
+    let args = msg.split(" ");
+    let cmd = args.shift(" ")
+     if(cmd === "?ban") {
+      if(user.mod) {
+       let full = args.join(" ");
+        if(full == 0) return;
+         full = full.slice(args[0].length + 3, full.length) // Adjust "+ 3" to however many unwanted characters are left over due to typical NodeJS stuff
+         client.ban(channel, args[0], (full || "No reason.")).catch(error => {
+           console.log(error);  
+         })// Leaving the reason or "full" empty will just enter the reason as "No reason."
+      }
+   }
+})
+
+client.on('message', (channel, user, msg, self) => {
+    let args = msg.split(" ");
+    let cmd = args.shift(" ")
+     if(cmd === "?timeout") {
+      if(user.mod) {
+       let full = args.join(" ");
+        if(full == 0) return;
+          // again, args[0] is meant to be a username. Will not function if it is not a USERNAME.
+         let time = parseInt(args[1]) // Timeout uses seconds as it's duration length. Default is 1 hour in this case.
+         full = full.slice(args[0].length + args[1].length + 3, full.length) // Adjust "+ 3" to however many unwanted characters are left over due to typical NodeJS stuff
+          client.timeout(channel, args[0], (time || 3600), (full || "No reason.")).catch(error => {
+           console.log(error);  
+         })// Leaving the reason empty will just enter the reason as "No reason."
       }
    }
 })
