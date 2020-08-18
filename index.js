@@ -484,7 +484,7 @@ client.on('message', (channel, user, msg, self) {
 
 client.on('message', (channel, user, msg, self) => {
     let args = msg.split(" ");
-    let cmd = args.shift(" ")
+    let cmd = args.shift()
      if(cmd === "!com") {
       if(user.mod) {
         if(args[0] == 0) return;
@@ -495,7 +495,7 @@ client.on('message', (channel, user, msg, self) => {
 
 client.on('message', (channel, user, msg, self) => {
     let args = msg.split(" ");
-    let cmd = args.shift(" ")
+    let cmd = args.shift()
      if(cmd === "?ban") {
       if(user.mod) {
        let full = args.join(" ");
@@ -510,7 +510,7 @@ client.on('message', (channel, user, msg, self) => {
 
 client.on('message', (channel, user, msg, self) => {
     let args = msg.split(" ");
-    let cmd = args.shift(" ")
+    let cmd = args.shift()
      if(cmd === "?timeout") {
       if(user.mod) {
        let full = args.join(" ");
@@ -522,6 +522,114 @@ client.on('message', (channel, user, msg, self) => {
            console.log(error);  
          })// Leaving the reason empty will just enter the reason as "No reason."
       }
+   }
+})
+
+const colors = {
+  "Blue",
+  "BlueViolet",
+  "CadetBlue",
+  "Chocolate",
+  "Coral",
+  "DodgerBlue",
+  "Firebrick",
+  "GoldenRod",
+  "Green",
+  "HotPink",
+  "OrangeRed",
+  "Red",
+  "SeaGreen",
+  "SpringGreen",
+  "YellowGreen",
+}
+
+client.on('message', (channel, user, msg, self) => {
+    let args = msg.split(" ");
+    let cmd = args.shift();
+      if(msg === "?color") {
+        if(user.mod) {
+         if(args[0].charAt(1) === "#") { // If you want to set a custom color for the client. (Will need to begin with # of course)
+          client.color(args[0]);   
+         } else {
+          switch(args[0].toLowerCase()) {
+           case("list"):
+            client.action(channel, `List of colors: ${colors.join(", ")}`);
+           break;
+           case("blue"):
+            client.color('Blue');
+              client.action(channel, "Color set to Blue");
+           break;
+           case("blueviolet"):
+            client.color('BlueViolet');
+              client.action(channel, "Color set to BlueViolet");
+           break;
+           case("cadetblue"):
+            client.color('CadetBlue');
+              client.action(channel, "Color set to CadetBlue");
+           break;
+           case("chocolate"):
+            client.color("Chocolate");
+              client.action(channel, "Color set to Chocolate");
+           break;
+           case("coral"):
+            client.color("Coral");
+              client.action(channel, "Color set to Coral");
+           break;
+           case("dodgerblue"):
+            client.color("DodgerBlue");
+               client.action(channel, "Color set to DodgerBlue");
+           break;
+           case("firebrick"):
+            client.color("Firebrick");
+               client.action(channel, "Color set to Firebrick");
+           break;
+           case("goldenrod"):
+            client.color("GoldenRod");
+               client.action(channel, "Color set to GoldenRod");
+           break;
+           case("green"):
+            client.color("Green");
+               client.action(channel, "Color set to Green");
+           break;
+           case("hotpink"):
+            client.color("HotPink");
+               client.action(channel, "Color set to HotPink");
+           break;
+           case("pink"):
+            client.color("HotPink");
+               client.action(channel, "Color set to Pink");
+           break;
+           case("orangered"):
+            client.color("OrangeRed");
+               client.action(channel, "Color set to OrangeRed");
+           break;
+           case("redorange"):
+            client.color("OrangeRed");
+               client.action(channel, "Color set to RedOrange");
+           break;
+           case("red"):
+            client.color("Red");
+                  client.action(channel, "Color set to Red");
+           break;
+           case("seagreen"):
+            client.color("SeaGreen");
+               client.action(channel, "Color set to SeaGreen");
+           break;
+           case("springgreen"):
+            client.color("SpringGreen");
+               client.action(channel, "Color set to SpringGreen");
+           break;
+           case("yellowgreen"):
+            client.color("YellowGreen");
+             client.action(channel, "Color set to YellowGreen");
+           break;
+              default:
+                  let color = colors.shuffle().random();
+                  client.color(color);
+                  client.action(channel, `Color set to ${color}`);
+          }
+        }
+     }       
    }
 })
 
@@ -568,7 +676,7 @@ client.on('part', (channel, user, self) => {
 
 client.on('message', (channel, user, msg, self) => {
    let args = msg.split(" ");
-   let cmd = args.shift(" ");
+   let cmd = args.shift();
     if(cmd === "!bal") {
       let msg = args.join(" ");
         if(msg == 0) {
@@ -591,7 +699,7 @@ client.on('message', (channel, user, msg, self) => {
 
 client.on('message', (channel, user, msg, self) => {
    let args = msg.split(" ");
-   let cmd = args.shift(" ");
+   let cmd = args.shift();
     if(cmd === "!redeem") {
       let full = args.join(" ");
        if(full == 0) return client.action(channel, user.username + ", you're gonna want to provide a valid action!")
